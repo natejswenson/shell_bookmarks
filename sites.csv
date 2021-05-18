@@ -1,0 +1,9 @@
+aws,""
+gitlab,""
+github,""
+,aws,AWS-Management-Console,https://console.aws.amazon.com/console/home?region=us-east-1
+,aws,Lambda,https://console.aws.amazon.com/lambda/home?region=us-east-1#/discover
+,aws,S3-Management-Console,,https://s3.console.aws.amazon.com/s3/home?region=us-east-1#
+,aws,DynamoDB,https://console.aws.amazon.com/dynamodb/home?region=us-east-1#gettingStarted:
+,gitlab,Home,https://gitlab.com/
+,github,Home,https://github.com/
