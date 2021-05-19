@@ -6,7 +6,9 @@
 my_dir=`dirname $0`
 source $my_dir/.config
 sites="$my_dir/sites.csv"
-navprompt="$pcolor$boldcolor$pr$rcolor"
+nav1prompt="$pcolor$boldcolor$nav1h$rcolor"
+nav2prompt="$pcolor$boldcolor$nav2h$rcolor"
+nav4prompt="$pcolor$boldcolor$nav4h$rcolor"
 PS3="$pcolor$boldcolor$blinkcolor$hash$rcolor"
 #____________________________________________________________________
 #
@@ -26,6 +28,10 @@ subsites_of_selected_main_site(){
     awk -F, -v x=$1 '$2 == x' $sites | cut -d "," -f 3 
     }
 
+folders(){ 
+    awk -F, -v x=folder '$2 == x' $sites | cut -d "," -f 1 
+    }
+
 selected_subsite_url(){ 
 awk -F, -v x=$1 '$2 == x' $sites | cut -d "," -f 4 | sed "${2}q;d" 
 }
@@ -41,18 +47,16 @@ smc(){
 nav(){
     printf %"$(tput cols)"s |tr " " "-"
     echo ""
-    printf "%*s\n" $(((${#prompt}+$COLUMNS)/2)) "$prompt"
-    printf %"$(tput cols)"s |tr " " "-"
+    printf "%*s\n" $(((${#nav1prompt}+$COLUMNS)/2)) "$nav1prompt"
     select nav_dest in $main_sites
     do 
         MAIN_SITE=$(selected_main_site "$REPLY")
         SUBSITE_CK=$(smc "$MAIN_SITE")
         subsites=$(subsites_of_selected_main_site "$MAIN_SITE") 
-        prompt="$pcolor$boldcolor CHOOSE SPECIFIC $MAIN_SITE SITE$rcolor"
+        prompt="$pcolor$boldcolor which $MAIN_SITE site do you wish to open...$rcolor"
         printf %"$(tput cols)"s |tr " " "-"
         echo ""
         printf "%*s\n" $(((${#prompt}+$COLUMNS)/2)) "$prompt"
-        printf %"$(tput cols)"s |tr " " "-"
         if [[ $SUBSITE_CK == "" ]]
         then
             new=$(column_2_row_selected "$REPLY")
@@ -77,6 +81,9 @@ nav(){
 #                               FAV
 #____________________________________________________________________
 fav(){
+    printf %"$(tput cols)"s |tr " " "-"
+    echo ""
+    printf "%*s\n" $(((${#nav4prompt}+$COLUMNS)/2)) "$nav4prompt"
     select type in "${bmt[@]}"
     do
     printf $pcolor$boldcolor"%*s\n" $(((${#bmth[$REPLY -1]}+$COLUMNS)/2)) "${bmth[$REPLY -1]}"$rcolor
@@ -84,29 +91,46 @@ fav(){
     echo ""
     case $type in
         "${bmt[0]}")
-            read -p "name yuour bookmark:" title
-            read -p "full url for your bookmark" url
+            read -p "name your bookmark$blinkcolor:$rcolor " title
+            read -p "url for bookmark$blinkcolor:$rcolor " url
             echo -e "$title,$url\n$(cat $sites)" > $sites
-            echo "$pcolor $boldcolor$title,$url$rcolor"
-            echo "has been added to sites.csv"
+            echo ""
+            for i in "$pcolor$title,$url$rcolor" "$pcolor$hba$rcolor"
+            do
+                printf "%*s\n" $(((${#i}+$COLUMNS)/2)) "$i"
+            done
+            echo ""
+            printf %"$(tput cols)"s |tr " " "-"
+            exit
         ;;
         "${bmt[1]}")
-            echo "Name your folder"
-            read title
-            echo "Enter full url for your bookmark"
-            read url
-            echo -e "$title,$shorturl\n$(cat $sites)" > $sites
-            echo "$pcolor $boldcolor$title,$shorturl$rcolor"
-            echo "has been added to sites.csv"
+            read -p "name your folder$colorblink:$rcolor " title
+            echo -e "$title,folder" > $sites
+            for i in "$pcolor$title,$rcolor" "$pcolor$hba$rcolor"
+            do
+                printf "%*s\n" $(((${#i}+$COLUMNS)/2)) "$i"
+            done
+            echo ""
+            printf %"$(tput cols)"s |tr " " "-"
+            exit
         ;;
         "${bmt[2]}")
-            site=$(selected_main_site "$REPLY")
-            echo "Enter full url in the formate https://www.$site.com/subsite"
-            read url
-            echo ",$site,$title,$url" >> $sites
+            x=$(folders)
+            PS3="$pcolor$nav3h$rcolor"
+            select folder in $x
+            do
+            read -p "name for favorite$colorblink:$rcolor " title
+            read -p "url for favorite $colorblink:$rcolor " url
+            echo ",$folder,$title,$url" >> $sites
             echo "$title has been added to the $site folder with and addresss of:"
-            printf "%*s\n" $(((${#url}+$COLUMNS)/2)) "$url"
-            echo "has been added as a subsite of $site sites.csv"
+            for i in "$pcolor$folder,$title,$url$rcolor" "$pcolor$hba$rcolor"
+                do
+                    printf "%*s\n" $(((${#i}+$COLUMNS)/2)) "$i"
+                done
+            echo ""
+            printf %"$(tput cols)"s |tr " " "-"
+            exit
+            done
         ;;
         esac
     done
