@@ -1,3 +1,4 @@
+$title,$url\n
 gitlab,https://www.gitlab.com
 📁(aws),folder
 📁(github),folder
@@ -15,3 +16,4 @@ gitlab,https://www.gitlab.com
 ,aws,S3,https://s3.console.aws.amazon.com/s3/
 ,aws,Lambda,https://console.aws.amazon.com/lambda/
 ,aws,Billing,https://console.aws.amazon.com/billing/
+

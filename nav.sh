@@ -6,7 +6,7 @@
 my_dir=`dirname $0`
 source $my_dir/.config
 sites="$my_dir/sites.csv"
-nav1prompt="$pcolor$boldcolor$nav1h$rcolor"
+nav1prompt="$pcolor$nav1h$rcolor"
 nav2prompt="$pcolor$boldcolor$nav2h$rcolor"
 nav4prompt="$pcolor$boldcolor$nav4h$rcolor"
 PS3="$pcolor$boldcolor$blinkcolor$hash$rcolor"
@@ -45,16 +45,15 @@ smc(){
 #                               NAV
 #____________________________________________________________________
 nav(){
-    printf %"$(tput cols)"s |tr " " "-"
-    echo ""
-    printf "%*s\n" $(((${#nav1prompt}+$COLUMNS)/2)) "$nav1prompt"
+    printf %"$(tput cols)"s |tr " " "_"
+    printf "$nav1prompt \n"
     select nav_dest in $main_sites
     do 
         MAIN_SITE=$(selected_main_site "$REPLY")
         SUBSITE_CK=$(smc "$MAIN_SITE")
         subsites=$(subsites_of_selected_main_site "$MAIN_SITE") 
         prompt="$pcolor$boldcolor which $MAIN_SITE site do you wish to open...$rcolor"
-        printf %"$(tput cols)"s |tr " " "-"
+        printf %"$(tput cols)"s |tr " " "/\ \/"
         echo ""
         printf "%*s\n" $(((${#prompt}+$COLUMNS)/2)) "$prompt"
         if [[ $SUBSITE_CK == "" ]]
@@ -105,7 +104,7 @@ fav(){
         ;;
         "${bmt[1]}")
             read -p "name your folder$colorblink:$rcolor " title
-            echo -e "$title,folder" > $sites
+            echo -e "📁($title),folder\n$(cat $sites)" > $sites
             for i in "$pcolor$title,$rcolor" "$pcolor$hba$rcolor"
             do
                 printf "%*s\n" $(((${#i}+$COLUMNS)/2)) "$i"
