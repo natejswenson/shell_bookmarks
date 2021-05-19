@@ -1,12 +1,1 @@
 google,https://www.google.com
-aws,folder
-gitlab,folder
-github,folder
-,aws,AWS-Management-Console,https://console.aws.amazon.com/
-,aws,Lambda,https://console.aws.amazon.com
-,aws,S3-Management-Console,,https://s3.console.aws.amazon.com/s3/
-,aws,DynamoDB,https://console.aws.amazon.com/dynamodb/
-,gitlab,Home,https://gitlab.com/
-,github,Home,https://github.com/
-,github,spunky,www.spunky.com
-,aws,deepracer,https://aws.amazon.com/deepracer/
