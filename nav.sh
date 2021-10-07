@@ -45,17 +45,17 @@ smc(){
 #                               NAV
 #____________________________________________________________________
 nav(){
-    printf %"$(tput cols)"s |tr " " "_"
+    printf %"$nav1prompt$(tput cols)"s |tr " " "_"
     printf "$nav1prompt \n"
     select nav_dest in $main_sites
     do 
         MAIN_SITE=$(selected_main_site "$REPLY")
         SUBSITE_CK=$(smc "$MAIN_SITE")
         subsites=$(subsites_of_selected_main_site "$MAIN_SITE") 
-        prompt="$pcolor$boldcolor which $MAIN_SITE site do you wish to open...$rcolor"
-        printf %"$(tput cols)"s |tr " " "/\ \/"
+        prompt="$MAIN_SITE | $nav1prompt$rcolor\n"
+        printf %"$(tput cols)"s |tr " " "-"
         echo ""
-        printf "%*s\n" $(((${#prompt}+$COLUMNS)/2)) "$prompt"
+        printf "$prompt"
         if [[ $SUBSITE_CK == "" ]]
         then
             new=$(column_2_row_selected "$REPLY")
