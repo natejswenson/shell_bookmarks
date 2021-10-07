@@ -9,7 +9,6 @@ echo 'alias nav=~/bash-browser-favorites/nav.sh' >> ~/.bashrc
 ### for use with zsh
 echo 'alias nav=~/bash-browser-favorites/nav.sh' >> ~/.zshrc
 . ~/.zshrc
-
 ```
 ### nav function
 ```sh
