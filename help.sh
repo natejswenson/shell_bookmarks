@@ -18,15 +18,15 @@ select option in 'add a favorite' 'open a bookmarked site' 'edit sites.csv' 'lea
 do
      case $option in
     "add a favorite")
-       $HOME/local_repo/shell_favorites/nav.sh -fav
+       "$my_dir/nav.sh" -fav
         ;;
     "open a bookmarked site")
-        $HOME/local_repo/shell_favorites/nav.sh
+        "$my_dir/nav.sh"
         ;;
     "edit sites.csv")
-        vi $my_dir/sites.csv
+        "${EDITOR:-vi}" "$my_dir/sites.csv"
     ;;
-    ".leave")
+    "leave")
         exit
     ;;
     esac
